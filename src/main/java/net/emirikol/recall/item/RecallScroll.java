@@ -20,7 +20,31 @@ public class RecallScroll extends Item {
 
 	@Override
 	public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
-		System.out.println("Scroll was used!"); //TODO
+		ItemStack stack = playerEntity.getStackInHand(hand);
+		switch(this.getStatus(stack)) {
+			case UNBOUND:
+				return this.useUnbound();
+			case RECALL:
+				return this.useRecall();
+			case RETURN:
+				return this.useReturn();
+		}
+		
+		return ActionResult.SUCCESS;
+	}
+	
+	public ActionResult useUnbound() {
+		System.out.println("Unbound scroll was used!"); //TODO
+		return ActionResult.SUCCESS;
+	}
+	
+	public ActionResult useRecall() {
+		System.out.println("Recall scroll was used!"); //TODO
+		return ActionResult.SUCCESS;
+	}
+	
+	public ActionResult useReturn() {
+		System.out.println("Return scroll was used!"); //TODO
 		return ActionResult.SUCCESS;
 	}
 	
