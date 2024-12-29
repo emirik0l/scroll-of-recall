@@ -8,10 +8,10 @@
 		"Emirikol"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/emirik0l",
+		"sources": "https://github.com/emirik0l/scroll-of-recall"
 	},
-	"license": "CC0-1.0",
+	"license": "LGPL2.1",
 	"icon": "assets/recall/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -30,6 +30,5 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
 	}
 }
