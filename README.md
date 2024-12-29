@@ -4,13 +4,12 @@ WIP town portal mod
 TODO:
 
 - Implement tome
-- Particles?
 - Look at BowItem for how to make it "pull back"
 - Write a proper README
 
 # Credits
 
-One texture is adapted from the excellent Malcolm Riley's unused-textures repository, namely:
+One texture is adapted from the excellent Malcolm Riley's [unused-textures](https://github.com/malcolmriley/unused-textures) repository, namely:
 
     The "book_scroll_blank" and "book_scroll_written" textures.
 
