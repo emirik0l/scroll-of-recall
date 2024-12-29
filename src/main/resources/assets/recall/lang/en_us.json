@@ -2,7 +2,7 @@
 	"item.recall.recall_scroll.unbound_name": "Unbound Scroll",
 	"item.recall.recall_scroll.recall_name": "Scroll of Recall",
 	"item.recall.recall_scroll.return_name": "Scroll of Return",
-	"item.recall.recall_scroll.unbound_tooltip": "Right-click to bind this scroll to your current location.",
-	"item.recall.recall_scroll.recall_tooltip": "Right-click to teleport to the location bound to this scroll.",
-	"item.recall.recall_scroll.return_tooltip": "Right-click to return to the point you recalled from."
+	"item.recall.recall_scroll.unbound_tooltip": "Use to bind this scroll to your current location.",
+	"item.recall.recall_scroll.recall_tooltip": "Teleports you to the bound location.",
+	"item.recall.recall_scroll.return_tooltip": "Returns you to the point you recalled from."
 }
