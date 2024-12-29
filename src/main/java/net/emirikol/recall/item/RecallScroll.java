@@ -39,7 +39,7 @@ public class RecallScroll extends Item {
 	}
 	
 	public ActionResult useUnbound(PlayerEntity playerEntity, ItemStack stack) {
-		// TODO - play a sound
+		// TODO - play a sound with playerEntity.playSound()
 		
 		// Create a scroll of recall.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
@@ -58,6 +58,8 @@ public class RecallScroll extends Item {
 		inventory.offerOrDrop(newStack);
 		inventory.markDirty();
 		
+		// TODO - send a chat message to the player
+		
 		// Decrement the old stack.
 		stack.decrement(1);
 		
@@ -65,12 +67,14 @@ public class RecallScroll extends Item {
 	}
 	
 	public ActionResult useRecall(PlayerEntity playerEntity, ItemStack stack) {
-		// TODO - play a sound
+		// TODO - play a sound with playerEntity.playSound()
 		
 		// Make a note of the player's current coordinates, which will be needed to return.
 		BlockPos returnPos = playerEntity.getBlockPos();
 		
-		// TODO - teleport the player to the coordinates stored in the scroll
+		// Teleport the player to the coordinates stored in the scroll.
+		BlockPos telePos = stack.get(RecallMod.COORD_COMPONENT);
+		playerEntity.setPos(telePos.getX(), telePos.getY(), telePos.getZ());
 		
 		// Create a scroll of return.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
@@ -88,6 +92,8 @@ public class RecallScroll extends Item {
 		inventory.offerOrDrop(newStack);
 		inventory.markDirty();
 		
+		// TODO - send a chat message to the player
+		
 		// Decrement the old stack.
 		stack.decrement(1);
 		
@@ -95,9 +101,11 @@ public class RecallScroll extends Item {
 	}
 	
 	public ActionResult useReturn(PlayerEntity playerEntity, ItemStack stack) {
-		// TODO - play a sound
+		// TODO - play a sound with playerEntity.playSound()
 		
-		// TODO - teleport the player to the coordinates stored in the scroll
+		// Teleport the player to the coordinates stored in the scroll.
+		BlockPos telePos = stack.get(RecallMod.COORD_COMPONENT);
+		playerEntity.setPos(telePos.getX(), telePos.getY(), telePos.getZ());
 		
 		// Decrement the stack.
 		stack.decrement(1);
@@ -132,7 +140,7 @@ public class RecallScroll extends Item {
 				tooltip.add(Text.translatable("item.recall.recall_scroll.return_tooltip"));
 				break;
 		}
-		
+		// TODO - add coordinates to the tooltips
 	}
 	
 	public Status getStatus(ItemStack stack) {
