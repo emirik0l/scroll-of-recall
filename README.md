@@ -4,10 +4,9 @@ Intended as a companion for mods like [Waystones](https://github.com/TwelveItera
 
 TODO:
 
-- Add a short teleportation cooldown
 - Test thoroughly
 
-# Credits
+## Credits
 
 Textures adapted for this mod:
 

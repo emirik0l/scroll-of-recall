@@ -60,18 +60,21 @@ public class RecallScroll extends Item {
 		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of());
 		newStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, component);
 		
-		// Decrement the stack.
-		stack.decrement(1);
-		
 		// Give it to the player.
 		PlayerInventory inventory = playerEntity.getInventory();
 		inventory.offerOrDrop(newStack);
 		inventory.markDirty();
+		
+		// Decrement the stack.
+		stack.decrement(1);
 	}
 	
 	public void useRecall(PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
+		
+		// Small cooldown.
+		playerEntity.getItemCooldownManager().set(stack, 40);
 		
 		// Make a note of the player's current coordinates, which will be needed to return.
 		BlockPos returnPos = playerEntity.getBlockPos();
@@ -91,25 +94,28 @@ public class RecallScroll extends Item {
 		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("return"), List.of());
 		newStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, component);
 		
-		// Decrement the stack.
-		stack.decrement(1);		
-		
 		// Give it to the player.
 		PlayerInventory inventory = playerEntity.getInventory();
 		inventory.offerOrDrop(newStack);
 		inventory.markDirty();
+		
+		// Decrement the stack.
+		stack.decrement(1);		
 	}
 	
 	public void useReturn(PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
-		// Decrement the stack.
-		stack.decrement(1);
+		// Small cooldown.
+		playerEntity.getItemCooldownManager().set(stack, 40);
 		
 		// Teleport the player to the coordinates stored in the scroll.
 		BlockPos telePos = stack.get(RecallMod.COORD_COMPONENT);
 		playerEntity.setPos(telePos.getX(), telePos.getY(), telePos.getZ());
+		
+		// Decrement the stack.
+		stack.decrement(1);
 	}
 	
 	@Override
