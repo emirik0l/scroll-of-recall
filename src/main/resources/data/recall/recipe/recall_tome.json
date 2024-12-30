@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " E ",
+    "EBE",
+    " EI"
+  ],
+  "key": {
+    "E": "minecraft:ender_pearl",
+    "B": "minecraft:book",
+    "I": "minecraft:ink_sac"
+  },
+  "result": {
+    "id": "recall:recall_tome",
+    "count": 1
+  }
+}
