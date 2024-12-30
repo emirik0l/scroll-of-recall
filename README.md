@@ -6,11 +6,13 @@ TODO:
 
 - Implement the tome
 - Add a short teleportation cooldown
+- Test thoroughly
 
 # Credits
 
 Textures adapted from the excellent Malcolm Riley's [unused-textures](https://github.com/malcolmriley/unused-textures) repository:
 
-    The "book_scroll_blank" and "book_scroll_written" textures.
+    - book_scroll_blank
+	- book_scroll_written
 
 These assets are licensed under CC BY 4.0.
