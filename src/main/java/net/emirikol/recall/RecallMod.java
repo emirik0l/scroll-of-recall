@@ -24,8 +24,11 @@ public class RecallMod implements ModInitializer {
 	public static final String MOD_ID = "recall";
 	
 	public static RecallScroll RECALL_SCROLL;
+	public static RecallTome RECALL_TOME;
+	
 	public static ComponentType<Integer> SCROLL_TYPE_COMPONENT;
 	public static ComponentType<BlockPos> COORD_COMPONENT;
+	public static ComponentType<BlockPos> COORD_BACKUP_COMPONENT;
 
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
@@ -39,17 +42,27 @@ public class RecallMod implements ModInitializer {
 		RegistryKey<Item> recall_scroll_key = RegistryKey.of(RegistryKeys.ITEM, recall_scroll_id);
 		Item.Settings recall_scroll_settings = new Item.Settings().useItemPrefixedTranslationKey().registryKey(recall_scroll_key);
 		
+		Identifier recall_tome_id = Identifier.of(MOD_ID, "recall_tome");
+		RegistryKey<Item> recall_tome_key = RegistryKey.of(RegistryKeys.ITEM, recall_tome_id);
+		Item.Settings recall_tome_settings = new Item.Settings().useItemPrefixedTranslationKey().registryKey(recall_tome_key);
+		recall_tome_settings.maxCount(1);
+		
 		// Initialise objects.
 		RECALL_SCROLL = new RecallScroll(recall_scroll_settings);
+		RECALL_TOME = new RecallTome(recall_tome_settings);
 		SCROLL_TYPE_COMPONENT = ComponentType.<Integer>builder().codec(Codec.INT).build();
 		COORD_COMPONENT = ComponentType.<BlockPos>builder().codec(BlockPos.CODEC).build();
+		COORD_BACKUP_COMPONENT = ComponentType.<BlockPos>builder().codec(BlockPos.CODEC).build();
 		
 		// Add items to item groups.
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> itemGroup.add(RECALL_SCROLL));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> itemGroup.add(RECALL_TOME));
 		
 		// Register objects.
 		Registry.register(Registries.ITEM, recall_scroll_id, RECALL_SCROLL);
+		Registry.register(Registries.ITEM, recall_tome_id, RECALL_TOME);
 		Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(MOD_ID, "scroll_type_component"), SCROLL_TYPE_COMPONENT);
 		Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(MOD_ID, "coord_component"), COORD_COMPONENT);
+		Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(MOD_ID, "coord_backup_component"), COORD_BACKUP_COMPONENT);
 	}
 }

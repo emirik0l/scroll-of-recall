@@ -5,6 +5,7 @@ Intended as a companion for mods like [Waystones](https://github.com/TwelveItera
 TODO:
 
 - Implement the tome
+- Add a short teleportation cooldown
 
 # Credits
 
