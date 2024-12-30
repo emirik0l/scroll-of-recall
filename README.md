@@ -8,7 +8,7 @@ TODO:
 
 # Credits
 
-One texture is adapted from the excellent Malcolm Riley's [unused-textures](https://github.com/malcolmriley/unused-textures) repository, namely:
+Textures adapted from the excellent Malcolm Riley's [unused-textures](https://github.com/malcolmriley/unused-textures) repository:
 
     The "book_scroll_blank" and "book_scroll_written" textures.
 
