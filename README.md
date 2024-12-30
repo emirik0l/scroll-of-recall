@@ -5,15 +5,12 @@ Intended as a companion for mods like [Waystones](https://github.com/TwelveItera
 TODO:
 
 - Add a short teleportation cooldown
-- Try to find or make a better book texture
 - Test thoroughly
 
 # Credits
 
-Textures adapted from the excellent Malcolm Riley's [unused-textures](https://github.com/malcolmriley/unused-textures) repository:
+Textures adapted for this mod:
 
-    - book_scroll_blank
-	- book_scroll_written
-	- book_grimoire_recolor
-
-These assets are licensed under CC BY 4.0.
+    - book_scroll_blank from [unused-textures](https://github.com/malcolmriley/unused-textures). CC BY 4.0.
+	- book_scroll_written from [unused-textures](https://github.com/malcolmriley/unused-textures). CC BY 4.0.
+	- books.png from [16x16 Assorted RPG Icons](https://merchant-shade.itch.io/16x16-mixed-rpg-icons). Free for commercial and non-commercial use.
