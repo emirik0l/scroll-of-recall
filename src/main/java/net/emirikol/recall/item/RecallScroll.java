@@ -1,6 +1,7 @@
 package net.emirikol.recall.item;
 
 import net.emirikol.recall.RecallMod;
+import net.emirikol.recall.component.*;
 
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.CustomModelDataComponent;
@@ -9,6 +10,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -52,9 +54,9 @@ public class RecallScroll extends Item {
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
 		newStack.set(RecallMod.SCROLL_TYPE_COMPONENT, 1);
 		
-		// Store the player's current coordinates.
-		BlockPos currentPos = playerEntity.getBlockPos();
-		newStack.set(RecallMod.COORD_COMPONENT, currentPos);
+		// Store the player's current location.
+		RecallTargetComponent target = RecallTargetComponent.fromPlayer(playerEntity);
+		newStack.set(RecallMod.TARGET_COMPONENT, target);
 		
 		// Give it the correct model.
 		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of());
@@ -78,9 +80,11 @@ public class RecallScroll extends Item {
 		
 		// Make a note of the player's current coordinates, which will be needed to return.
 		BlockPos returnPos = playerEntity.getBlockPos();
+		RegistryKey<World> returnWorld = playerEntity.getWorld().getRegistryKey();
 		
 		// Teleport the player to the coordinates stored in the scroll.
-		BlockPos telePos = stack.get(RecallMod.COORD_COMPONENT);
+		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
+		BlockPos telePos = target.pos();
 		playerEntity.setPos(telePos.getX(), telePos.getY(), telePos.getZ());
 		
 		// Create a scroll of return.
@@ -88,7 +92,8 @@ public class RecallScroll extends Item {
 		newStack.set(RecallMod.SCROLL_TYPE_COMPONENT, 2);
 		
 		// Store the return coordinates.
-		newStack.set(RecallMod.COORD_COMPONENT, returnPos);
+		RecallTargetComponent newTarget = new RecallTargetComponent(returnPos, returnWorld);
+		newStack.set(RecallMod.TARGET_COMPONENT, newTarget);
 		
 		// Give it the correct model.
 		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("return"), List.of());
@@ -111,7 +116,8 @@ public class RecallScroll extends Item {
 		playerEntity.getItemCooldownManager().set(stack, 40);
 		
 		// Teleport the player to the coordinates stored in the scroll.
-		BlockPos telePos = stack.get(RecallMod.COORD_COMPONENT);
+		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
+		BlockPos telePos = target.pos();
 		playerEntity.setPos(telePos.getX(), telePos.getY(), telePos.getZ());
 		
 		// Decrement the stack.
@@ -144,14 +150,14 @@ public class RecallScroll extends Item {
 			case RECALL:
 				tooltip.add(Text.translatable("item.recall.recall_scroll.recall_tooltip"));
 				
-				pos = stack.get(RecallMod.COORD_COMPONENT);
+				pos = stack.get(RecallMod.TARGET_COMPONENT).pos();
 				coord_str = String.format("(x=%d, y=%d, z=%d)", pos.getX(), pos.getY(), pos.getZ());
 				tooltip.add(Text.literal(coord_str).formatted(Formatting.DARK_PURPLE));
 				break;
 			case RETURN:
 				tooltip.add(Text.translatable("item.recall.recall_scroll.return_tooltip"));
 				
-				pos = stack.get(RecallMod.COORD_COMPONENT);
+				pos = stack.get(RecallMod.TARGET_COMPONENT).pos();
 				coord_str = String.format("(x=%d, y=%d, z=%d)", pos.getX(), pos.getY(), pos.getZ());
 				tooltip.add(Text.literal(coord_str).formatted(Formatting.DARK_PURPLE));
 				break;
