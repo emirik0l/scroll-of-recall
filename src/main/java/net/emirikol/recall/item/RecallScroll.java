@@ -32,7 +32,7 @@ public class RecallScroll extends Item {
 	public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
 		ItemStack stack = playerEntity.getStackInHand(hand);
 		
-		switch(this.getStatus(stack)) {
+		switch(this.getScrollType(stack)) {
 			case UNBOUND:
 				this.useUnbound(playerEntity, stack);
 				break;
@@ -53,15 +53,11 @@ public class RecallScroll extends Item {
 		
 		// Create a scroll of recall.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
-		newStack.set(RecallMod.SCROLL_TYPE_COMPONENT, 1);
+		newStack = this.setScrollType(newStack, ScrollType.RECALL);
 		
 		// Store the player's current location.
 		RecallTargetComponent target = RecallTargetComponent.fromPlayer(playerEntity);
 		newStack.set(RecallMod.TARGET_COMPONENT, target);
-		
-		// Give it the correct model.
-		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of());
-		newStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, component);
 		
 		// Give it to the player.
 		PlayerInventory inventory = playerEntity.getInventory();
@@ -86,15 +82,11 @@ public class RecallScroll extends Item {
 		
 		// Create a scroll of return.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
-		newStack.set(RecallMod.SCROLL_TYPE_COMPONENT, 2);
+		newStack = this.setScrollType(newStack, ScrollType.RETURN);
 		
 		// Store the return coordinates.
 		RecallTargetComponent newTarget = new RecallTargetComponent(returnPos, returnWorld);
 		newStack.set(RecallMod.TARGET_COMPONENT, newTarget);
-		
-		// Give it the correct model.
-		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("return"), List.of());
-		newStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, component);
 		
 		// Give it to the player.
 		PlayerInventory inventory = playerEntity.getInventory();
@@ -125,7 +117,7 @@ public class RecallScroll extends Item {
 	
 	@Override
 	public Text getName(ItemStack stack) {
-		switch(this.getStatus(stack)) {
+		switch(this.getScrollType(stack)) {
 			case UNBOUND:
 				return Text.translatable("item.recall.recall_scroll.unbound_name");
 			case RECALL:
@@ -142,7 +134,7 @@ public class RecallScroll extends Item {
 		BlockPos pos;
 		String coord_str;
 		
-		switch(this.getStatus(stack)) {
+		switch(this.getScrollType(stack)) {
 			case UNBOUND:
 				tooltip.add(Text.translatable("item.recall.recall_scroll.unbound_tooltip"));
 				break;
@@ -163,22 +155,45 @@ public class RecallScroll extends Item {
 		}
 	}
 	
-	public Status getStatus(ItemStack stack) {
-		int scroll_type = stack.getOrDefault(RecallMod.SCROLL_TYPE_COMPONENT, 0);
+	public ScrollType getScrollType(ItemStack stack) {
+		int scrollType = stack.getOrDefault(RecallMod.SCROLL_TYPE_COMPONENT, 0);
 		
-		switch (scroll_type) {
+		switch (scrollType) {
 			case 0:
-				return Status.UNBOUND;
+				return ScrollType.UNBOUND;
 			case 1:
-				return Status.RECALL;
+				return ScrollType.RECALL;
 			case 2:
-				return Status.RETURN;
+				return ScrollType.RETURN;
 			default:
-				return Status.UNBOUND;
+				return ScrollType.UNBOUND;
 		}
 	}
 	
-	enum Status {
+	public ItemStack setScrollType(ItemStack stack, ScrollType scrollType) {
+		switch (scrollType) {
+			case ScrollType.UNBOUND:
+				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 0);
+				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("unbound"), List.of()));
+				break;
+			case ScrollType.RECALL:
+				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 1);
+				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of()));
+				break;
+			case ScrollType.RETURN:
+				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 2);
+				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("return"), List.of()));
+				break;
+			default:
+				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 0);
+				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("unbound"), List.of()));
+				break;
+		}		
+		
+		return stack;
+	}
+	
+	enum ScrollType {
 		UNBOUND,
 		RECALL,
 		RETURN
