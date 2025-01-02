@@ -3,12 +3,13 @@
   "pattern": [
     " A ",
     "APA",
-    " AI"
+    "FAI"
   ],
   "key": {
     "A": "minecraft:amethyst_shard",
     "P": "minecraft:paper",
-    "I": "minecraft:ink_sac"
+    "I": "minecraft:ink_sac",
+	"F": "minecraft:feather"
   },
   "result": {
     "id": "recall:recall_scroll",
