@@ -1,14 +1,21 @@
 package net.emirikol.recall.item;
 
 import net.emirikol.recall.RecallMod;
+import net.emirikol.recall.component.*;
 
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.CustomModelDataComponent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -40,7 +47,30 @@ public abstract class RecallItem extends Item {
 	public abstract void useUnbound(PlayerEntity playerEntity, ItemStack stack);
 	public abstract void useRecall(World world, PlayerEntity playerEntity, ItemStack stack);
 	public abstract void useReturn(World world, PlayerEntity playerEntity, ItemStack stack);
-	
+
+	public static void doTeleport(World world, PlayerEntity playerEntity, RecallTargetComponent target) {
+		// Teleportation is server side only.
+		if (world.isClient) { return; }
+		
+		// Retrieve target information from custom component.
+		BlockPos targetPos = target.pos();
+		RegistryKey<World> targetWorld = target.world();
+		
+		// Convert the target BlockPos into a Vec3d.
+		Vec3d targetVec = new Vec3d(targetPos.getX(), targetPos.getY(), targetPos.getZ());
+		
+		// Attempt to retrieve the target world from the server.
+		ServerWorld serverWorld = world.getServer().getWorld(targetWorld);
+		if (serverWorld == null) { return; }
+		
+		// Perform the teleport.
+		TeleportTarget teleportTarget = new TeleportTarget(serverWorld, targetVec, Vec3d.ZERO, 0, 0, TeleportTarget.NO_OP);
+		Entity teleportedEntity = playerEntity.teleportTo(teleportTarget);
+		
+		// Cancel out velocity.
+		teleportedEntity.fallDistance = 0;
+	}
+
 	public RecallType getRecallType(ItemStack stack) {
 		int recallType = stack.getOrDefault(RecallMod.SCROLL_TYPE_COMPONENT, 0);
 		
