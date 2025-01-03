@@ -43,8 +43,7 @@ public class RecallTome extends RecallItem {
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
 		// Make a note of the player's current coordinates, which will be needed to return.
-		BlockPos returnPos = playerEntity.getBlockPos();
-		RegistryKey<World> returnWorld = playerEntity.getWorld().getRegistryKey();
+		RecallTargetComponent returnTarget = RecallTargetComponent.fromPlayer(playerEntity);
 		
 		// Teleport the player to the coordinates stored in the tome.
 		this.doTeleport(world, playerEntity, stack);
@@ -57,8 +56,7 @@ public class RecallTome extends RecallItem {
 		stack = this.setRecallType(stack, RecallType.RETURN);
 		
 		// Store the return coordinates.
-		RecallTargetComponent newTarget = new RecallTargetComponent(returnPos, returnWorld);
-		stack.set(RecallMod.TARGET_COMPONENT, newTarget);
+		stack.set(RecallMod.TARGET_COMPONENT, returnTarget);
 		
 		// Small cooldown.
 		playerEntity.getItemCooldownManager().set(stack, 40);
