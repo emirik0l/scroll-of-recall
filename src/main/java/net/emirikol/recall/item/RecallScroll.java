@@ -10,8 +10,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -60,8 +62,6 @@ public class RecallScroll extends Item {
 		inventory.offerOrDrop(newStack);
 		inventory.markDirty();
 		
-		// TODO - send a chat message to the player
-		
 		// Decrement the old stack.
 		stack.decrement(1);
 		
@@ -70,7 +70,7 @@ public class RecallScroll extends Item {
 	
 	public ActionResult useRecall(PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
-		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.2F, 1.5F);
+		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
 		// Make a note of the player's current coordinates, which will be needed to return.
 		BlockPos returnPos = playerEntity.getBlockPos();
@@ -95,8 +95,6 @@ public class RecallScroll extends Item {
 		inventory.offerOrDrop(newStack);
 		inventory.markDirty();
 		
-		// TODO - send a chat message to the player
-		
 		// Decrement the old stack.
 		stack.decrement(1);
 		
@@ -105,7 +103,7 @@ public class RecallScroll extends Item {
 	
 	public ActionResult useReturn(PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
-		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.2F, 1.5F);
+		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
 		// Teleport the player to the coordinates stored in the scroll.
 		BlockPos telePos = stack.get(RecallMod.COORD_COMPONENT);
@@ -133,18 +131,28 @@ public class RecallScroll extends Item {
 	
 	@Override
 	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+		BlockPos pos;
+		String coord_str;
+		
 		switch(this.getStatus(stack)) {
 			case UNBOUND:
 				tooltip.add(Text.translatable("item.recall.recall_scroll.unbound_tooltip"));
 				break;
 			case RECALL:
 				tooltip.add(Text.translatable("item.recall.recall_scroll.recall_tooltip"));
+				
+				pos = stack.get(RecallMod.COORD_COMPONENT);
+				coord_str = String.format("(x=%d, y=%d, z=%d)", pos.getX(), pos.getY(), pos.getZ());
+				tooltip.add(Text.literal(coord_str).formatted(Formatting.DARK_PURPLE));
 				break;
 			case RETURN:
 				tooltip.add(Text.translatable("item.recall.recall_scroll.return_tooltip"));
+				
+				pos = stack.get(RecallMod.COORD_COMPONENT);
+				coord_str = String.format("(x=%d, y=%d, z=%d)", pos.getX(), pos.getY(), pos.getZ());
+				tooltip.add(Text.literal(coord_str).formatted(Formatting.DARK_PURPLE));
 				break;
 		}
-		// TODO - add coordinates to the tooltips
 	}
 	
 	public Status getStatus(ItemStack stack) {

@@ -3,8 +3,8 @@ WIP town portal mod
 
 TODO:
 
-- Finish implementing use methods
 - Add crafting recipes
 - Implement tome
 - Proper textures
 - Particles?
+- Look at BowItem for how to make it "pull back"
