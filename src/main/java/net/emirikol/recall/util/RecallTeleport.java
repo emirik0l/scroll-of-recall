@@ -2,6 +2,7 @@ package net.emirikol.recall.util;
 
 import net.emirikol.recall.component.*;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.world.ServerWorld;
@@ -28,6 +29,9 @@ public class RecallTeleport {
 		
 		// Perform the teleport.
 		TeleportTarget teleportTarget = new TeleportTarget(serverWorld, targetVec, Vec3d.ZERO, 0, 0, TeleportTarget.NO_OP);
-		playerEntity.teleportTo(teleportTarget);
+		Entity teleportedEntity = playerEntity.teleportTo(teleportTarget);
+		
+		// Cancel out velocity.
+		teleportedEntity.fallDistance = 0;
 	}
 }
