@@ -47,10 +47,10 @@ public class RecallTome extends RecallItem {
 		RegistryKey<World> returnWorld = playerEntity.getWorld().getRegistryKey();
 		
 		// Teleport the player to the coordinates stored in the tome.
-		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		this.doTeleport(world, playerEntity, target);
+		this.doTeleport(world, playerEntity, stack);
 		
 		// Back up the recall coordinates so they can be restored later.
+		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
 		stack.set(RecallMod.TARGET_BACKUP_COMPONENT, target);
 		
 		// Change to a tome of return.
@@ -70,8 +70,7 @@ public class RecallTome extends RecallItem {
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 
 		// Teleport the player to the coordinates stored in the tome.
-		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		this.doTeleport(world, playerEntity, target);
+		this.doTeleport(world, playerEntity, stack);
 
 		// Change to a tome of recall.
 		stack = this.setRecallType(stack, RecallType.RECALL);

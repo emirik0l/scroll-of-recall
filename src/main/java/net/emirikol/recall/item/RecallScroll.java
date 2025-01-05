@@ -56,8 +56,7 @@ public class RecallScroll extends RecallItem {
 		RegistryKey<World> returnWorld = playerEntity.getWorld().getRegistryKey();
 		
 		// Teleport the player to the coordinates stored in the scroll.
-		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		this.doTeleport(world, playerEntity, target);
+		this.doTeleport(world, playerEntity, stack);
 		
 		// Create a scroll of return.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
@@ -85,8 +84,7 @@ public class RecallScroll extends RecallItem {
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
 		// Teleport the player to the coordinates stored in the scroll.
-		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		this.doTeleport(world, playerEntity, target);
+		this.doTeleport(world, playerEntity, stack);
 		
 		// Small cooldown.
 		playerEntity.getItemCooldownManager().set(stack, 40);
