@@ -4,5 +4,11 @@
 	"item.recall.recall_scroll.return_name": "Scroll of Return",
 	"item.recall.recall_scroll.unbound_tooltip": "Use to bind this scroll to your current location.",
 	"item.recall.recall_scroll.recall_tooltip": "Teleports you to the bound location.",
-	"item.recall.recall_scroll.return_tooltip": "Returns you to the point you recalled from."
+	"item.recall.recall_scroll.return_tooltip": "Returns you to the point you recalled from.",
+	"item.recall.recall_tome.unbound_name": "Unbound Tome",
+	"item.recall.recall_tome.recall_name": "Tome of Recall",
+	"item.recall.recall_tome.return_name": "Tome of Return",
+	"item.recall.recall_tome.unbound_tooltip": "Use to permanently bind this tome to your current location.",
+	"item.recall.recall_tome.recall_tooltip": "Teleports you to the bound location.",
+	"item.recall.recall_tome.return_tooltip": "Returns you to the point you recalled from."
 }
