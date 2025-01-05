@@ -64,6 +64,9 @@ public class RecallTome extends Item {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
+		// Small cooldown.
+		playerEntity.getItemCooldownManager().set(stack, 40);
+		
 		// Make a note of the player's current coordinates, which will be needed to return.
 		BlockPos returnPos = playerEntity.getBlockPos();
 		
@@ -88,6 +91,9 @@ public class RecallTome extends Item {
 	public void useReturn(PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
+		
+		// Small cooldown.
+		playerEntity.getItemCooldownManager().set(stack, 40);
 
 		// Teleport the player to the coordinates stored in the tome.
 		BlockPos telePos = stack.get(RecallMod.COORD_COMPONENT);
