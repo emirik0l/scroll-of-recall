@@ -32,7 +32,7 @@ public class RecallTome extends Item {
 	public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
 		ItemStack stack = playerEntity.getStackInHand(hand);
 		
-		switch(this.getStatus(stack)) {
+		switch(this.getTomeType(stack)) {
 			case UNBOUND:
 				this.useUnbound(playerEntity, stack);
 				break;
@@ -52,15 +52,11 @@ public class RecallTome extends Item {
 		playerEntity.playSound(SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, 1.0F, 1.0F);
 		
 		// Change to a tome of recall.
-		stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 1);
+		stack = this.setTomeType(stack, TomeType.RECALL);
 
 		// Store the player's current location.
 		RecallTargetComponent target = RecallTargetComponent.fromPlayer(playerEntity);
 		stack.set(RecallMod.TARGET_COMPONENT, target);
-		
-		// Give it the correct model.
-		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of());
-		stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, component);
 	}
 	
 	public void useRecall(World world, PlayerEntity playerEntity, ItemStack stack) {
@@ -79,15 +75,11 @@ public class RecallTome extends Item {
 		stack.set(RecallMod.TARGET_BACKUP_COMPONENT, target);
 		
 		// Change to a tome of return.
-		stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 2);
+		stack = this.setTomeType(stack, TomeType.RETURN);
 		
 		// Store the return coordinates.
 		RecallTargetComponent newTarget = new RecallTargetComponent(returnPos, returnWorld);
 		stack.set(RecallMod.TARGET_COMPONENT, newTarget);
-		
-		// Give it the correct model.
-		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("return"), List.of());
-		stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, component);
 		
 		// Small cooldown.
 		playerEntity.getItemCooldownManager().set(stack, 40);
@@ -102,15 +94,11 @@ public class RecallTome extends Item {
 		RecallTeleport.doTeleport(world, playerEntity, target);
 
 		// Change to a tome of recall.
-		stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 1);
+		stack = this.setTomeType(stack, TomeType.RECALL);
 
 		// Retrieve the backed up recall coordinates and store them.
 		RecallTargetComponent recallTarget = stack.remove(RecallMod.TARGET_BACKUP_COMPONENT);
 		stack.set(RecallMod.TARGET_COMPONENT, recallTarget);
-		
-		// Give it the correct model.
-		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of());
-		stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, component);
 		
 		// Small cooldown.
 		playerEntity.getItemCooldownManager().set(stack, 40);
@@ -118,7 +106,7 @@ public class RecallTome extends Item {
 
 	@Override
 	public Text getName(ItemStack stack) {
-		switch(this.getStatus(stack)) {
+		switch(this.getTomeType(stack)) {
 			case UNBOUND:
 				return Text.translatable("item.recall.recall_tome.unbound_name");
 			case RECALL:
@@ -135,7 +123,7 @@ public class RecallTome extends Item {
 		BlockPos pos;
 		String coord_str;
 		
-		switch(this.getStatus(stack)) {
+		switch(this.getTomeType(stack)) {
 			case UNBOUND:
 				tooltip.add(Text.translatable("item.recall.recall_tome.unbound_tooltip"));
 				break;
@@ -156,22 +144,45 @@ public class RecallTome extends Item {
 		}
 	}
 	
-	public Status getStatus(ItemStack stack) {
-		int scroll_type = stack.getOrDefault(RecallMod.SCROLL_TYPE_COMPONENT, 0);
+	public TomeType getTomeType(ItemStack stack) {
+		int tomeType = stack.getOrDefault(RecallMod.SCROLL_TYPE_COMPONENT, 0);
 		
-		switch (scroll_type) {
+		switch (tomeType) {
 			case 0:
-				return Status.UNBOUND;
+				return TomeType.UNBOUND;
 			case 1:
-				return Status.RECALL;
+				return TomeType.RECALL;
 			case 2:
-				return Status.RETURN;
+				return TomeType.RETURN;
 			default:
-				return Status.UNBOUND;
+				return TomeType.UNBOUND;
 		}
 	}
 	
-	enum Status {
+	public ItemStack setTomeType(ItemStack stack, TomeType tomeType) {
+		switch (tomeType) {
+			case TomeType.UNBOUND:
+				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 0);
+				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("unbound"), List.of()));
+				break;
+			case TomeType.RECALL:
+				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 1);
+				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of()));
+				break;
+			case TomeType.RETURN:
+				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 2);
+				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("return"), List.of()));
+				break;
+			default:
+				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 0);
+				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("unbound"), List.of()));
+				break;
+		}		
+		
+		return stack;
+	}
+	
+	enum TomeType {
 		UNBOUND,
 		RECALL,
 		RETURN
