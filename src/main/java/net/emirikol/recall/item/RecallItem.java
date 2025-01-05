@@ -70,7 +70,9 @@ public abstract class RecallItem extends Item {
 		Entity teleportedEntity = playerEntity.teleportTo(teleportTarget);
 		
 		// Cancel out velocity.
-		teleportedEntity.fallDistance = 0;
+		if (teleportedEntity != null) {
+			teleportedEntity.fallDistance = 0;
+		}
 	}
 
 	public RecallType getRecallType(ItemStack stack) {
