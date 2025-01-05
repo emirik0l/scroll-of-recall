@@ -67,9 +67,6 @@ public class RecallTome extends Item {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
-		// Small cooldown.
-		playerEntity.getItemCooldownManager().set(stack, 40);
-		
 		// Make a note of the player's current coordinates, which will be needed to return.
 		BlockPos returnPos = playerEntity.getBlockPos();
 		RegistryKey<World> returnWorld = playerEntity.getWorld().getRegistryKey();
@@ -91,14 +88,14 @@ public class RecallTome extends Item {
 		// Give it the correct model.
 		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("return"), List.of());
 		stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, component);
+		
+		// Small cooldown.
+		playerEntity.getItemCooldownManager().set(stack, 40);
 	}
 	
 	public void useReturn(World world, PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
-		
-		// Small cooldown.
-		playerEntity.getItemCooldownManager().set(stack, 40);
 
 		// Teleport the player to the coordinates stored in the tome.
 		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
@@ -114,6 +111,9 @@ public class RecallTome extends Item {
 		// Give it the correct model.
 		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of());
 		stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, component);
+		
+		// Small cooldown.
+		playerEntity.getItemCooldownManager().set(stack, 40);
 	}
 
 	@Override

@@ -76,9 +76,6 @@ public class RecallScroll extends Item {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
-		// Small cooldown.
-		playerEntity.getItemCooldownManager().set(stack, 40);
-		
 		// Make a note of the player's current coordinates, which will be needed to return.
 		BlockPos returnPos = playerEntity.getBlockPos();
 		RegistryKey<World> returnWorld = playerEntity.getWorld().getRegistryKey();
@@ -104,6 +101,9 @@ public class RecallScroll extends Item {
 		inventory.offerOrDrop(newStack);
 		inventory.markDirty();
 		
+		// Small cooldown.
+		playerEntity.getItemCooldownManager().set(stack, 40);
+		
 		// Decrement the stack.
 		stack.decrement(1);		
 	}
@@ -112,12 +112,12 @@ public class RecallScroll extends Item {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
-		// Small cooldown.
-		playerEntity.getItemCooldownManager().set(stack, 40);
-		
 		// Teleport the player to the coordinates stored in the scroll.
 		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
 		RecallTeleport.doTeleport(world, playerEntity, target);
+		
+		// Small cooldown.
+		playerEntity.getItemCooldownManager().set(stack, 40);
 		
 		// Decrement the stack.
 		stack.decrement(1);
