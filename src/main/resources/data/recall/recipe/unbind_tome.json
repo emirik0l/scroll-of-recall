@@ -1,0 +1,11 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+		"recall:recall_tome",
+		"minecraft:paper"
+    ],
+    "result": {
+        "id": "recall:recall_tome",
+        "count": 1
+    }
+}
