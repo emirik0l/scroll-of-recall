@@ -3,12 +3,13 @@
   "pattern": [
     " E ",
     "EBE",
-    " EI"
+    "FEI"
   ],
   "key": {
     "E": "minecraft:ender_pearl",
     "B": "minecraft:book",
-    "I": "minecraft:ink_sac"
+    "I": "minecraft:ink_sac",
+	"F": "minecraft:feather"
   },
   "result": {
     "id": "recall:recall_tome",
