@@ -10,6 +10,10 @@ The **Tome of Recall** is exactly the same, but you can use it again and again. 
 
 ![unbound tome recipe](/readme/tome-recipe.png)
 
+Because the tome is meant to be reused, you might find that you want to change the location it's bound to. To do so, simply unbind it by adding some more pages:
+
+![unbinding recipe](/readme/unbind-recipe.png)
+
 ## Credits
 
 Textures adapted for this mod:
