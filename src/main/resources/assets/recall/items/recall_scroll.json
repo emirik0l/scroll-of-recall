@@ -1,6 +1,26 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "recall:item/recall_scroll"
+    "type": "minecraft:select",
+    "property": "minecraft:custom_model_data",
+    "cases": [
+      {
+        "when": "recall",
+        "model": {
+          "type": "minecraft:model",
+          "model": "recall:item/recall_scroll"
+        }
+      },
+      {
+        "when": "return",
+        "model": {
+          "type": "minecraft:model",
+          "model": "recall:item/return_scroll"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "recall:item/unbound_scroll"
+    }
   }
 }
