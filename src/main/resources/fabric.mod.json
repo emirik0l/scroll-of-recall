@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "recall",
+	"version": "${version}",
+	"name": "Scroll of Recall",
+	"description": "Recall where you've been, return to where you were going.",
+	"authors": [
+		"Emirikol"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/recall/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.emirikol.recall.RecallMod"
+		],
+		"client": [
+		]
+	},
+	"mixins": [
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
