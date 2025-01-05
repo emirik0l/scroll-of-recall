@@ -2,10 +2,9 @@ package net.emirikol.recall.item;
 
 import net.emirikol.recall.RecallMod;
 import net.emirikol.recall.component.*;
+import net.emirikol.recall.item.*;
 import net.emirikol.recall.util.*;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -15,45 +14,25 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class RecallScroll extends Item {
+public class RecallScroll extends RecallItem {
 	public RecallScroll(Settings settings) {
 		super(settings);
 	}
-
-	@Override
-	public ActionResult use(World world, PlayerEntity playerEntity, Hand hand) {
-		ItemStack stack = playerEntity.getStackInHand(hand);
-		
-		switch(this.getScrollType(stack)) {
-			case UNBOUND:
-				this.useUnbound(playerEntity, stack);
-				break;
-			case RECALL:
-				this.useRecall(world, playerEntity, stack);
-				break;
-			case RETURN:
-				this.useReturn(world, playerEntity, stack);
-				break;
-		}
-		
-		return ActionResult.SUCCESS;
-	}
 	
+	@Override
 	public void useUnbound(PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, 1.0F, 1.0F);
 		
 		// Create a scroll of recall.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
-		newStack = this.setScrollType(newStack, ScrollType.RECALL);
+		newStack = this.setRecallType(newStack, RecallType.RECALL);
 		
 		// Store the player's current location.
 		RecallTargetComponent target = RecallTargetComponent.fromPlayer(playerEntity);
@@ -68,6 +47,7 @@ public class RecallScroll extends Item {
 		stack.decrement(1);
 	}
 	
+	@Override
 	public void useRecall(World world, PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
@@ -82,7 +62,7 @@ public class RecallScroll extends Item {
 		
 		// Create a scroll of return.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
-		newStack = this.setScrollType(newStack, ScrollType.RETURN);
+		newStack = this.setRecallType(newStack, RecallType.RETURN);
 		
 		// Store the return coordinates.
 		RecallTargetComponent newTarget = new RecallTargetComponent(returnPos, returnWorld);
@@ -100,6 +80,7 @@ public class RecallScroll extends Item {
 		stack.decrement(1);		
 	}
 	
+	@Override
 	public void useReturn(World world, PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
@@ -117,7 +98,7 @@ public class RecallScroll extends Item {
 	
 	@Override
 	public Text getName(ItemStack stack) {
-		switch(this.getScrollType(stack)) {
+		switch(this.getRecallType(stack)) {
 			case UNBOUND:
 				return Text.translatable("item.recall.recall_scroll.unbound_name");
 			case RECALL:
@@ -134,7 +115,7 @@ public class RecallScroll extends Item {
 		BlockPos pos;
 		String coord_str;
 		
-		switch(this.getScrollType(stack)) {
+		switch(this.getRecallType(stack)) {
 			case UNBOUND:
 				tooltip.add(Text.translatable("item.recall.recall_scroll.unbound_tooltip"));
 				break;
@@ -153,49 +134,5 @@ public class RecallScroll extends Item {
 				tooltip.add(Text.literal(coord_str).formatted(Formatting.DARK_PURPLE));
 				break;
 		}
-	}
-	
-	public ScrollType getScrollType(ItemStack stack) {
-		int scrollType = stack.getOrDefault(RecallMod.SCROLL_TYPE_COMPONENT, 0);
-		
-		switch (scrollType) {
-			case 0:
-				return ScrollType.UNBOUND;
-			case 1:
-				return ScrollType.RECALL;
-			case 2:
-				return ScrollType.RETURN;
-			default:
-				return ScrollType.UNBOUND;
-		}
-	}
-	
-	public ItemStack setScrollType(ItemStack stack, ScrollType scrollType) {
-		switch (scrollType) {
-			case ScrollType.UNBOUND:
-				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 0);
-				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("unbound"), List.of()));
-				break;
-			case ScrollType.RECALL:
-				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 1);
-				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of()));
-				break;
-			case ScrollType.RETURN:
-				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 2);
-				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("return"), List.of()));
-				break;
-			default:
-				stack.set(RecallMod.SCROLL_TYPE_COMPONENT, 0);
-				stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(), List.of(), List.of("unbound"), List.of()));
-				break;
-		}		
-		
-		return stack;
-	}
-	
-	enum ScrollType {
-		UNBOUND,
-		RECALL,
-		RETURN
 	}
 }
