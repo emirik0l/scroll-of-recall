@@ -3,7 +3,6 @@ package net.emirikol.recall.item;
 import net.emirikol.recall.RecallMod;
 import net.emirikol.recall.component.*;
 import net.emirikol.recall.item.*;
-import net.emirikol.recall.util.*;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -58,7 +57,7 @@ public class RecallScroll extends RecallItem {
 		
 		// Teleport the player to the coordinates stored in the scroll.
 		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		RecallTeleport.doTeleport(world, playerEntity, target);
+		this.doTeleport(world, playerEntity, target);
 		
 		// Create a scroll of return.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
@@ -87,7 +86,7 @@ public class RecallScroll extends RecallItem {
 		
 		// Teleport the player to the coordinates stored in the scroll.
 		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		RecallTeleport.doTeleport(world, playerEntity, target);
+		this.doTeleport(world, playerEntity, target);
 		
 		// Small cooldown.
 		playerEntity.getItemCooldownManager().set(stack, 40);

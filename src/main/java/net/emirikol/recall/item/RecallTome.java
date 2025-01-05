@@ -3,7 +3,6 @@ package net.emirikol.recall.item;
 import net.emirikol.recall.RecallMod;
 import net.emirikol.recall.component.*;
 import net.emirikol.recall.item.*;
-import net.emirikol.recall.util.*;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -49,7 +48,7 @@ public class RecallTome extends RecallItem {
 		
 		// Teleport the player to the coordinates stored in the tome.
 		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		RecallTeleport.doTeleport(world, playerEntity, target);
+		this.doTeleport(world, playerEntity, target);
 		
 		// Back up the recall coordinates so they can be restored later.
 		stack.set(RecallMod.TARGET_BACKUP_COMPONENT, target);
@@ -72,7 +71,7 @@ public class RecallTome extends RecallItem {
 
 		// Teleport the player to the coordinates stored in the tome.
 		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		RecallTeleport.doTeleport(world, playerEntity, target);
+		this.doTeleport(world, playerEntity, target);
 
 		// Change to a tome of recall.
 		stack = this.setRecallType(stack, RecallType.RECALL);
