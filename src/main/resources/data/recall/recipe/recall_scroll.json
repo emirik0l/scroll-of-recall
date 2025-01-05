@@ -11,7 +11,7 @@
     "I": "minecraft:ink_sac"
   },
   "result": {
-    "id": "minecraft:paper",
+    "id": "recall:recall_scroll",
     "count": 1
   }
 }
