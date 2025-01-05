@@ -13,6 +13,7 @@ import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
@@ -44,7 +45,9 @@ public class RecallScroll extends Item {
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
 		newStack.set(RecallMod.SCROLL_TYPE_COMPONENT, 1);
 		
-		// TODO - store the coordinates of your current location
+		// Store the player's current coordinates.
+		BlockPos currentPos = playerEntity.getBlockPos();
+		newStack.set(RecallMod.COORD_COMPONENT, currentPos);
 		
 		// Give it the correct model.
 		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("recall"), List.of());
@@ -64,7 +67,8 @@ public class RecallScroll extends Item {
 	public ActionResult useRecall(PlayerEntity playerEntity, ItemStack stack) {
 		// TODO - play a sound
 		
-		// TODO - make a note of the player's current coordinates ("return coordinates")
+		// Make a note of the player's current coordinates, which will be needed to return.
+		BlockPos returnPos = playerEntity.getBlockPos();
 		
 		// TODO - teleport the player to the coordinates stored in the scroll
 		
@@ -72,7 +76,8 @@ public class RecallScroll extends Item {
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
 		newStack.set(RecallMod.SCROLL_TYPE_COMPONENT, 2);
 		
-		// TODO - store the return coordinates
+		// Store the return coordinates.
+		newStack.set(RecallMod.COORD_COMPONENT, returnPos);
 		
 		// Give it the correct model.
 		CustomModelDataComponent component = new CustomModelDataComponent(List.of(), List.of(), List.of("return"), List.of());
