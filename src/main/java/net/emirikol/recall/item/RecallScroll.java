@@ -2,6 +2,7 @@ package net.emirikol.recall.item;
 
 import net.emirikol.recall.RecallMod;
 import net.emirikol.recall.component.*;
+import net.emirikol.recall.util.*;
 
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.CustomModelDataComponent;
@@ -36,10 +37,10 @@ public class RecallScroll extends Item {
 				this.useUnbound(playerEntity, stack);
 				break;
 			case RECALL:
-				this.useRecall(playerEntity, stack);
+				this.useRecall(world, playerEntity, stack);
 				break;
 			case RETURN:
-				this.useReturn(playerEntity, stack);
+				this.useReturn(world, playerEntity, stack);
 				break;
 		}
 		
@@ -71,7 +72,7 @@ public class RecallScroll extends Item {
 		stack.decrement(1);
 	}
 	
-	public void useRecall(PlayerEntity playerEntity, ItemStack stack) {
+	public void useRecall(World world, PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
@@ -84,8 +85,7 @@ public class RecallScroll extends Item {
 		
 		// Teleport the player to the coordinates stored in the scroll.
 		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		BlockPos telePos = target.pos();
-		playerEntity.setPos(telePos.getX(), telePos.getY(), telePos.getZ());
+		RecallTeleport.doTeleport(world, playerEntity, target);
 		
 		// Create a scroll of return.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
@@ -108,7 +108,7 @@ public class RecallScroll extends Item {
 		stack.decrement(1);		
 	}
 	
-	public void useReturn(PlayerEntity playerEntity, ItemStack stack) {
+	public void useReturn(World world, PlayerEntity playerEntity, ItemStack stack) {
 		// Play a sound.
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
@@ -117,8 +117,7 @@ public class RecallScroll extends Item {
 		
 		// Teleport the player to the coordinates stored in the scroll.
 		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
-		BlockPos telePos = target.pos();
-		playerEntity.setPos(telePos.getX(), telePos.getY(), telePos.getZ());
+		RecallTeleport.doTeleport(world, playerEntity, target);
 		
 		// Decrement the stack.
 		stack.decrement(1);
