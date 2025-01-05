@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "APA",
+    " AI"
+  ],
+  "key": {
+    "A": "minecraft:amethyst_shard",
+    "P": "minecraft:paper",
+    "I": "minecraft:ink_sac"
+  },
+  "result": {
+    "id": "minecraft:paper",
+    "count": 1
+  }
+}

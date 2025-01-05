@@ -3,10 +3,12 @@ WIP town portal mod
 
 TODO:
 
-- Add crafting recipes
 - Implement tome
 - Particles?
 - Look at BowItem for how to make it "pull back"
+- Write a proper README
+
+# Credits
 
 One texture is adapted from the excellent Malcolm Riley's unused-textures repository, namely:
 
