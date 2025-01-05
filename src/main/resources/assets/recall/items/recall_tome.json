@@ -1,0 +1,26 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:custom_model_data",
+    "cases": [
+      {
+        "when": "recall",
+        "model": {
+          "type": "minecraft:model",
+          "model": "recall:item/recall_tome"
+        }
+      },
+      {
+        "when": "return",
+        "model": {
+          "type": "minecraft:model",
+          "model": "recall:item/return_tome"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "recall:item/unbound_tome"
+    }
+  }
+}
