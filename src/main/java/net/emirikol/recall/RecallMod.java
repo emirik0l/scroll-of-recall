@@ -1,6 +1,7 @@
 package net.emirikol.recall;
 
 import net.emirikol.recall.item.*;
+import net.emirikol.recall.component.*;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -27,8 +28,8 @@ public class RecallMod implements ModInitializer {
 	public static RecallTome RECALL_TOME;
 	
 	public static ComponentType<Integer> SCROLL_TYPE_COMPONENT;
-	public static ComponentType<BlockPos> COORD_COMPONENT;
-	public static ComponentType<BlockPos> COORD_BACKUP_COMPONENT;
+	public static ComponentType<RecallTargetComponent> TARGET_COMPONENT;
+	public static ComponentType<RecallTargetComponent> TARGET_BACKUP_COMPONENT;
 
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
@@ -51,8 +52,8 @@ public class RecallMod implements ModInitializer {
 		RECALL_SCROLL = new RecallScroll(recall_scroll_settings);
 		RECALL_TOME = new RecallTome(recall_tome_settings);
 		SCROLL_TYPE_COMPONENT = ComponentType.<Integer>builder().codec(Codec.INT).build();
-		COORD_COMPONENT = ComponentType.<BlockPos>builder().codec(BlockPos.CODEC).build();
-		COORD_BACKUP_COMPONENT = ComponentType.<BlockPos>builder().codec(BlockPos.CODEC).build();
+		TARGET_COMPONENT = ComponentType.<RecallTargetComponent>builder().codec(RecallTargetComponent.CODEC).build();
+		TARGET_BACKUP_COMPONENT = ComponentType.<RecallTargetComponent>builder().codec(RecallTargetComponent.CODEC).build();
 		
 		// Add items to item groups.
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> itemGroup.add(RECALL_SCROLL));
@@ -62,7 +63,7 @@ public class RecallMod implements ModInitializer {
 		Registry.register(Registries.ITEM, recall_scroll_id, RECALL_SCROLL);
 		Registry.register(Registries.ITEM, recall_tome_id, RECALL_TOME);
 		Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(MOD_ID, "scroll_type_component"), SCROLL_TYPE_COMPONENT);
-		Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(MOD_ID, "coord_component"), COORD_COMPONENT);
-		Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(MOD_ID, "coord_backup_component"), COORD_BACKUP_COMPONENT);
+		Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(MOD_ID, "target_component"), TARGET_COMPONENT);
+		Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(MOD_ID, "target_backup_component"), TARGET_BACKUP_COMPONENT);
 	}
 }
