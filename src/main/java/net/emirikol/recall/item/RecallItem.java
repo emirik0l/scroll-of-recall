@@ -48,7 +48,7 @@ public abstract class RecallItem extends Item {
 	public abstract void useRecall(World world, PlayerEntity playerEntity, ItemStack stack);
 	public abstract void useReturn(World world, PlayerEntity playerEntity, ItemStack stack);
 
-	public static void doTeleport(World world, PlayerEntity playerEntity, ItemStack stack) {
+	public void doTeleport(World world, PlayerEntity playerEntity, ItemStack stack) {
 		RecallTargetComponent target = stack.get(RecallMod.TARGET_COMPONENT);
 		
 		// Teleportation is server side only.
@@ -111,7 +111,7 @@ public abstract class RecallItem extends Item {
 		return stack;
 	}
 	
-	enum RecallType {
+	public enum RecallType {
 		UNBOUND,
 		RECALL,
 		RETURN

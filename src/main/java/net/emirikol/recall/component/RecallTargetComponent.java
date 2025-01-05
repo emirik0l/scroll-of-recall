@@ -9,12 +9,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 public record RecallTargetComponent(BlockPos pos, RegistryKey<World> world) {
-	public static final Codec<RecallTargetComponent> CODEC = RecordCodecBuilder.create(builder -> {
-		return builder.group(
-			BlockPos.CODEC.fieldOf("pos").forGetter(RecallTargetComponent::pos),
-			World.CODEC.fieldOf("world").forGetter(RecallTargetComponent::world)
-		).apply(builder, RecallTargetComponent::new);
-	});
+	public static final Codec<RecallTargetComponent> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+        BlockPos.CODEC.fieldOf("pos").forGetter(RecallTargetComponent::pos),
+        World.CODEC.fieldOf("world").forGetter(RecallTargetComponent::world)
+    ).apply(builder, RecallTargetComponent::new));
 	
 	public static RecallTargetComponent fromPlayer(PlayerEntity playerEntity) {
 		BlockPos currentPos = playerEntity.getBlockPos();
