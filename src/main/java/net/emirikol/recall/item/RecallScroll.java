@@ -52,8 +52,7 @@ public class RecallScroll extends RecallItem {
 		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.15F, 1.5F);
 		
 		// Make a note of the player's current coordinates, which will be needed to return.
-		BlockPos returnPos = playerEntity.getBlockPos();
-		RegistryKey<World> returnWorld = playerEntity.getWorld().getRegistryKey();
+		RecallTargetComponent returnTarget = RecallTargetComponent.fromPlayer(playerEntity);
 		
 		// Teleport the player to the coordinates stored in the scroll.
 		this.doTeleport(world, playerEntity, stack);
@@ -63,8 +62,7 @@ public class RecallScroll extends RecallItem {
 		newStack = this.setRecallType(newStack, RecallType.RETURN);
 		
 		// Store the return coordinates.
-		RecallTargetComponent newTarget = new RecallTargetComponent(returnPos, returnWorld);
-		newStack.set(RecallMod.TARGET_COMPONENT, newTarget);
+		newStack.set(RecallMod.TARGET_COMPONENT, returnTarget);
 		
 		// Give it to the player.
 		PlayerInventory inventory = playerEntity.getInventory();
