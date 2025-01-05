@@ -2,18 +2,19 @@ package net.emirikol.recall.item;
 
 import net.emirikol.recall.RecallMod;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.CustomModelDataComponent;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.world.World;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.CustomModelDataComponent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -39,7 +40,8 @@ public class RecallScroll extends Item {
 	}
 	
 	public ActionResult useUnbound(PlayerEntity playerEntity, ItemStack stack) {
-		// TODO - play a sound with playerEntity.playSound()
+		// Play a sound.
+		playerEntity.playSound(SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, 1.0F, 1.0F);
 		
 		// Create a scroll of recall.
 		ItemStack newStack = new ItemStack(RecallMod.RECALL_SCROLL, 1);
@@ -67,7 +69,8 @@ public class RecallScroll extends Item {
 	}
 	
 	public ActionResult useRecall(PlayerEntity playerEntity, ItemStack stack) {
-		// TODO - play a sound with playerEntity.playSound()
+		// Play a sound.
+		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.2F, 1.5F);
 		
 		// Make a note of the player's current coordinates, which will be needed to return.
 		BlockPos returnPos = playerEntity.getBlockPos();
@@ -101,7 +104,8 @@ public class RecallScroll extends Item {
 	}
 	
 	public ActionResult useReturn(PlayerEntity playerEntity, ItemStack stack) {
-		// TODO - play a sound with playerEntity.playSound()
+		// Play a sound.
+		playerEntity.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.2F, 1.5F);
 		
 		// Teleport the player to the coordinates stored in the scroll.
 		BlockPos telePos = stack.get(RecallMod.COORD_COMPONENT);
